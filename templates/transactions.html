@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Braintree Transaction</title>
+</head>
+<body class="bg-gray-200 p-8">
+    <div class="max-w-md mx-auto bg-white p-8 rounded shadow-md gap-4 flex flex-col">
+        <div class="mb-4">
+        <h2 class="text-2xl font-semibold mb-6">Braintree Transaction</h2>
+        <form id="paymentForm" action="/process_payment" method="POST">
+            <div class="mb-4">
+                <label for="nonce" class="block text-sm font-medium text-gray-600">Payment Nonce:</label>
+                <input type="text" id="nonce" name="nonce" value="fake-valid-visa-nonce" class="mt-1 p-2 border rounded w-full">
+                <a target="_blank" href="https://developer.paypal.com/braintree/docs/reference/general/testing/python#nonces-representing-cards" class="font-medium text-blue-600 hover:text-blue-500 mt-2 hover:underline">Fake nonce</a>
+            </div>
+            <button type="button" onclick="submitForm()" class="bg-blue-500 text-white p-2 rounded">Submit</button>
+        </form>
+        </div>
+        <div class="mb-4 hidden result">
+            <h1 class="font-bold text-lg text-gray-600">Result :</h1>
+            <pre class="resultContent"></pre>   
+        </div>
+    </div>
+
+    <script>
+        function submitForm() {
+            // Récupérer la valeur du nonce depuis l'input
+            var nonce = document.getElementById("nonce").value;
+
+            // Envoyer le nonce au serveur
+            fetch('/process_payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ nonce: nonce }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Gérer la réponse du serveur
+                if (data.success) {
+                    console.log("Transaction réussie: " + data.transactionId);
+                    document.querySelector('.resultContent').textContent = JSON.stringify(data, null, 2);
+                    document.querySelector('.result').classList.remove('hidden');
+                } else {
+                    alert("Erreur de transaction: " + data.errorMessage);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
