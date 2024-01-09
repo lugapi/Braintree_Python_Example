@@ -1,4 +1,4 @@
-# Braintree Flask Integration
+# Braintree Basic Server Python
 
 This repository demonstrates a basic integration of Braintree payment gateway with a Flask web application. It includes a simple frontend with a form to input a payment nonce and submit it to the server.
 
