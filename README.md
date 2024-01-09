@@ -12,9 +12,7 @@ This repository demonstrates a basic integration of Braintree payment gateway wi
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/braintree-flask-integration.git
-
-cd braintree-flask-integration
+git clone https://github.com/lugapi/Braintree_Python_Example.git
 ```
 
 2. Install the required Python packages:
